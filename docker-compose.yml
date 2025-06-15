@@ -10,7 +10,7 @@ services:
     ports:
       - "2181:2181"
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   kafka:
     image: confluentinc/cp-kafka:7.6.0
@@ -29,7 +29,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -43,7 +43,7 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   clickhouse:
     image: clickhouse/clickhouse-server:23.3
@@ -58,7 +58,7 @@ services:
     volumes:
       - clickhouse_data:/var/lib/clickhouse
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   tabix:
     image: spoonest/clickhouse-tabix-web-client
@@ -66,14 +66,14 @@ services:
     ports:
       - "8124:80"
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   producer:
     build: ./producer
     depends_on:
       - kafka
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
   consumer:
     build: ./consumer
@@ -81,12 +81,10 @@ services:
       - kafka
       - clickhouse
     networks:
-      - kafka_ch_kafka-net
+      - kafka-net
 
 volumes:
   clickhouse_data:
 
 networks:
-  kafka_ch_kafka-net:
-    external:
-      name: kafka_ch_kafka-net
+  kafka-net:
