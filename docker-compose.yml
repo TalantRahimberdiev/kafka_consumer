@@ -68,6 +68,21 @@ services:
     networks:
       - kafka_ch_kafka-net
 
+  producer:
+    build: ./producer
+    depends_on:
+      - kafka
+    networks:
+      - kafka_ch_kafka-net
+
+  consumer:
+    build: ./consumer
+    depends_on:
+      - kafka
+      - clickhouse
+    networks:
+      - kafka_ch_kafka-net
+
 volumes:
   clickhouse_data:
 

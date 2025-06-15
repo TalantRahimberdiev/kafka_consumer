@@ -4,8 +4,8 @@ import json
 
 # Настройки
 KAFKA_TOPIC = 'test-topic'
-KAFKA_SERVER = 'localhost:29092'
-CLICKHOUSE_HOST = 'localhost'
+KAFKA_SERVER = 'kafka:9092'
+CLICKHOUSE_HOST = 'clickhouse'
 CLICKHOUSE_TABLE = 'kafka_messages'
 
 # Подключение к ClickHouse
@@ -23,7 +23,7 @@ ch.execute(f'''
 # Подключение к Kafka
 consumer = KafkaConsumer(
     KAFKA_TOPIC,
-    bootstrap_servers=KAFKA_SERVER,
+    bootstrap_servers='kafka:9092',
     auto_offset_reset='earliest',
     enable_auto_commit=True,
     group_id='python-clickhouse-consumer',
